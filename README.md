@@ -23,3 +23,17 @@ O script `01_exploration/01_data_profiling.sql` foi executado com sucesso e vali
 Com os problemas mapeados, iniciarei a criação dos scripts de limpeza e transformação. O foco será:
 - Criação da `vw_transactions_cleaned` com tipos de dados corrigidos.
 - Padronização da `vw_users_cleaned` para análise de perfil de crédito.
+
+
+### ✅ Status da Etapa 2: Cleaning (Concluído)
+Os scripts de limpeza foram implementados utilizando **Views (Camada de Transformação)**, garantindo que a base original permaneça intacta enquanto fornecemos dados otimizados para o BI:
+
+1.  **vw_transactions_cleaned:** Conversão de strings monetárias para `DECIMAL`, normalização de status de erro e tipagem de data completa.
+2.  **vw_users_cleaned:** Tratamento de dados financeiros e criação da métrica `debt_to_income_ratio` para análises de crédito.
+
+---
+## Próxima Etapa: Etapa 3 - Modeling (Modelagem Star Schema)
+Agora que os dados estão limpos, o foco será a **Integração das Tabelas**:
+- Criação de uma **Tabela Fato** unificada.
+- Relacionamento com a dimensão `mcc_codes` para categorização de gastos.
+- Preparação da estrutura final para conexão com o Looker/Power BI.
