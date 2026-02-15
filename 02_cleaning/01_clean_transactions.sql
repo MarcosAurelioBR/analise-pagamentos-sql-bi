@@ -1,7 +1,12 @@
 /* PROJETO: Análise de Ecossistema de Pagamentos
-   ETAPA 2: DATA CLEANING (LIMPEZA)
-   OBJETIVO: Sanitize e tipagem da tabela de transações (15M+ linhas).
-   NOTA: Foi utilizado o estilo 120 no CONVERT para garantir a leitura do formato ISO de data.
+   ETAPA 2: LIMPEZA DE DADOS (CLEANING)
+   
+   OBJETIVO: Organizar e padronizar a tabela de transações (15 milhões de registros).
+   
+   O QUE FOI FEITO:
+   - Os valores em dinheiro foram convertidos para formato numérico.
+   - As datas foram ajustadas para o padrão internacional (estilo 120) para evitar erros de leitura.
+   - Os status de erro foram padronizados para facilitar a contagem no Dashboard.
 */
 
 CREATE OR ALTER VIEW vw_transactions_cleaned AS
