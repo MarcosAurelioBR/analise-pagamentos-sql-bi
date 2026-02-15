@@ -1,6 +1,6 @@
-/* PROJETO: Análise de Ecossistema de Pagamentos
+dad/* PROJETO: Análise de Ecossistema de Pagamentos
    ETAPA 3: MODELAGEM (STAR SCHEMA)
-   OBJETIVO: Criar a visão final denormalizada para alimentação do Dashboard.
+   OBJETIVO: Criar a visão final de dados consolidados para alimentação do Dashboard.
 */
 
 CREATE OR ALTER VIEW vw_fact_payments_performance AS
