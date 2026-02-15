@@ -37,3 +37,10 @@ Agora que os dados estão limpos, o foco será a **Integração das Tabelas**:
 - Criação de uma **Tabela Fato** unificada.
 - Relacionamento com a dimensão `mcc_codes` para categorização de gastos.
 - Preparação da estrutura final para conexão com o Looker/Power BI.
+- ---
+## 🏗️ Etapa 3: Modelagem (Modeling)
+A arquitetura foi consolidada em uma **View Analítica Central** (`vw_fact_payments_performance`), seguindo princípios de Star Schema para otimizar a performance em ferramentas de BI:
+
+- **Denormalização:** Integração das camadas de transações, usuários e códigos de categoria (MCC).
+- **Consistência:** Utilização de `INNER JOIN` para garantir que apenas transações de usuários válidos sejam analisadas.
+- **Preparação para Dashboards:** A estrutura elimina a carga de processamento na ferramenta de visualização, permitindo filtros rápidos por categoria, gênero e faixa de score de crédito.
