@@ -44,3 +44,21 @@ A arquitetura foi consolidada em uma **View Analítica Central** (`vw_fact_payme
 - **Denormalização:** Integração das camadas de transações, usuários e códigos de categoria (MCC).
 - **Consistência:** Utilização de `INNER JOIN` para garantir que apenas transações de usuários válidos sejam analisadas.
 - **Preparação para Dashboards:** A estrutura elimina a carga de processamento na ferramenta de visualização, permitindo filtros rápidos por categoria, gênero e faixa de score de crédito.
+- ----
+## 📊 Etapa 4: Visualização e Insights de Negócio
+
+Com a modelagem concluída, os dados estão prontos para alimentar dashboards executivos. Com base na Tabela Fato construída, os seguintes KPIs foram definidos para monitoramento:
+
+### 1. Performance Financeira (Finance)
+- **TPV (Total Payment Volume):** Volume total transacionado com sucesso.
+- **Ticket Médio:** Valor médio por transação (segmentado por categoria).
+- **Categorias Top Performers:** Identificamos que **Money Transfer** lidera o volume financeiro, seguido por [Inserir próxima categoria].
+
+### 2. Análise de Risco e Fraude (Risk)
+- **Taxa de Aprovação:** Proporção de transações 'Success' vs 'Errors'.
+- **Motivos de Declínio:** O principal motivo de falha identificado foi **Insufficient Balance**, o que se correlaciona com o `debt_ratio` elevado encontrado na Etapa 2.
+- **Credit Score vs. Churn:** Relação entre a pontuação de crédito e a frequência de uso do cartão.
+
+### 3. Perfil do Consumidor (Demographics)
+- **Segmentação por Gênero:** Distribuição de gastos entre Male/Female.
+- **Fidelidade:** Identificação de usuários com maior volume de transações recorrentes.
