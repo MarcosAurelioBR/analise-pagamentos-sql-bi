@@ -1,4 +1,4 @@
-🔍 Etapa 1: Diagnóstico dos Dados
+Etapa 1: Diagnóstico dos Dados
 
 Nesta fase inicial, analisei a base bruta e identifiquei os pontos que precisavam de correção para viabilizar as análises:
 
@@ -10,7 +10,7 @@ Nesta fase inicial, analisei a base bruta e identifiquei os pontos que precisava
 
     Grande Volume: A base de transações tem 15 milhões de registros, o que exige queries bem estruturadas para não travar o sistema.
 
-✅ O que foi feito:
+O que foi feito:
 
 O script 01_exploration/01_data_profiling.sql validou as seguintes necessidades:
 
@@ -22,10 +22,11 @@ O script 01_exploration/01_data_profiling.sql validou as seguintes necessidades:
 
     Uso de Views: Como a base é muito grande, decidi usar Views. Assim, mantenho os dados originais guardados e crio uma camada de leitura muito mais rápida para o BI.
 
-🛠️ Etapa 2: Limpeza e Transformação
+Etapa 2: Limpeza e Transformação
 
 Com os problemas mapeados, criei os scripts para limpar e organizar os dados de transações e usuários.
-✅ O que foi feito:
+
+O que foi feito:
 
 Utilizei Views para transformar os dados brutos em informações prontas para o uso, sem alterar a base original:
 
@@ -33,10 +34,11 @@ Utilizei Views para transformar os dados brutos em informações prontas para o 
 
     vw_users_cleaned: Limpei a renda dos clientes e criei um cálculo de Endividamento, que mostra o quanto da renda do cliente está comprometida.
 
-🏗️ Etapa 3: Modelagem dos Dados
+Etapa 3: Modelagem dos Dados
 
 Nesta etapa, o foco foi juntar as peças. Em vez de trabalhar com várias tabelas espalhadas, criei uma Tabela Mestra.
-✅ O que foi feito:
+
+O que foi feito:
 
 Criei a View final vw_fact_payments_performance, que é o "coração" do projeto:
 
@@ -46,7 +48,7 @@ Criei a View final vw_fact_payments_performance, que é o "coração" do projeto
 
     Filtros Rápidos: A estrutura foi montada para permitir filtros instantâneos por categoria de gasto, gênero e pontuação de crédito (Score).
 
-📊 Etapa 4: Resultados e Insights de Negócio
+Etapa 4: Resultados e Insights de Negócio
 
 Com a estrutura pronta, já conseguimos extrair indicadores importantes para a tomada de decisão:
 1. Desempenho Financeiro
@@ -68,3 +70,10 @@ Com a estrutura pronta, já conseguimos extrair indicadores importantes para a t
     Gastos por Gênero: Comparação de consumo entre homens e mulheres.
 
     Comportamento: Identificação de clientes fiéis que usam o cartão com recorrência.
+
+### Validação dos Dados
+Para extrair os indicadores acima, foram desenvolvidas queries de agregação que consolidam os 15 milhões de registros. Os scripts completos podem ser encontrados na pasta `/04_insights`.
+
+**Exemplo de insight extraído:**
+* **Risco:** 61.92% das negativas de pagamento concentram-se em "Saldo Insuficiente", permitindo uma ação direcionada para aumento de limites ou produtos de crédito para perfis específicos.
+* **Perfil:** Clientes com Score Alto apresentam um índice de endividamento de 1.30, confirmando a estabilidade da base principal.
