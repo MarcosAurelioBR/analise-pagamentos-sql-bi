@@ -29,7 +29,6 @@ ORDER BY media_minutos_recorrencia ASC;
 
 -- 2. DETECÇÃO DE ANOMALIAS (OUTLIERS) POR CATEGORIA
 -- Usa o Z-Score para identificar transações que estão muito fora do padrão de gasto daquela categoria.
--- Demonstra conhecimento estatístico aplicado ao SQL.
 WITH Stats AS (
     SELECT 
         category_name,
