@@ -51,14 +51,13 @@ WHERE transaction_status = 'Success'
   AND ABS((t.amount_value - s.avg_category) / NULLIF(s.stdev_category, 0)) > 3
 ORDER BY z_score DESC;
 
--- 3. ANÁLISE DE CRESCIMENTO MENSAL (MoM Growth)
--- Calcula o crescimento do volume financeiro mês a mês e a média móvel de 3 meses.
--- Mostra visão estratégica de crescimento de receita.
+-- 3. ANÁLISE DE CRESCIMENTO MENSAL (MoM Growth) - Versão Final
 WITH MonthlyVolume AS (
     SELECT 
         YEAR(transaction_timestamp) AS trans_year,
         MONTH(transaction_timestamp) AS trans_month,
-        SUM(amount_value) AS monthly_tpv
+        -- Usando DECIMAL(38,2) para evitar o erro de estouro na soma
+        SUM(CAST(amount_value AS DECIMAL(38,2))) AS monthly_tpv
     FROM vw_fact_payments_performance
     WHERE transaction_status = 'Success'
     GROUP BY YEAR(transaction_timestamp), MONTH(transaction_timestamp)
@@ -68,7 +67,16 @@ SELECT
     trans_month,
     monthly_tpv,
     LAG(monthly_tpv) OVER (ORDER BY trans_year, trans_month) AS last_month_tpv,
-    (monthly_tpv - LAG(monthly_tpv) OVER (ORDER BY trans_year, trans_month)) / 
-        NULLIF(LAG(monthly_tpv) OVER (ORDER BY trans_year, trans_month), 0) * 100 AS mom_growth_pct,
-    AVG(monthly_tpv) OVER (ORDER BY trans_year, trans_month ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS moving_avg_3m
-FROM MonthlyVolume;
+    
+    -- Arredondando o crescimento percentual para 2 casas
+    CAST(
+        (monthly_tpv - LAG(monthly_tpv) OVER (ORDER BY trans_year, trans_month)) / 
+        NULLIF(LAG(monthly_tpv) OVER (ORDER BY trans_year, trans_month), 0) * 100 
+    AS DECIMAL(10,2)) AS mom_growth_pct,
+    
+    -- Arredondando a média móvel para 2 casas
+    CAST(
+        AVG(monthly_tpv) OVER (ORDER BY trans_year, trans_month ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) 
+    AS DECIMAL(38,2)) AS moving_avg_3m
+FROM MonthlyVolume
+ORDER BY trans_year, trans_month;
