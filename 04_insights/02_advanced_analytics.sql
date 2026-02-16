@@ -43,13 +43,15 @@ SELECT
     t.transaction_id,
     t.category_name,
     t.amount_value,
-    ((t.amount_value - s.avg_category) / NULLIF(s.stdev_category, 0)) AS z_score
+    round(((t.amount_value - s.avg_category) / NULLIF(s.stdev_category, 0)),2) AS z_score
 FROM vw_fact_payments_performance t
 JOIN Stats s 
     ON t.category_name = s.category_name
 WHERE transaction_status = 'Success'
   AND ABS((t.amount_value - s.avg_category) / NULLIF(s.stdev_category, 0)) > 3
 ORDER BY z_score DESC;
+
+
 
 -- 3. ANÁLISE DE CRESCIMENTO MENSAL (MoM Growth) - Versão Final
 WITH MonthlyVolume AS (
