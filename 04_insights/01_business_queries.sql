@@ -1,8 +1,8 @@
-/* =============================================================================
+/* 
 PROJETO: Análise de Ecossistema de Pagamentos
 ETAPA 4: VALIDAÇÃO DE KPIs E INSIGHTS DE NEGÓCIO
 OBJETIVO: Extrair indicadores estratégicos da Tabela Fato unificada.
-=============================================================================
+
 */
 
 -- 1. PERFORMANCE POR CATEGORIA
