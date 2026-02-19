@@ -45,10 +45,11 @@ FROM vw_fact_payments_performance
 WHERE transaction_status = 'Success'
 GROUP BY gender;
 
-
 -- 4. SAÚDE FINANCEIRA POR FAIXA DE SCORE
--- Classifica os clientes por qualidade de crédito e avalia o índice de endividamento.
--- Permite entender se o score de crédito está alinhado com o perfil de dívida dos usuários.
+-- Classifica os clientes por qualidade de crédito e analisa o nível de alavancagem
+-- (razão entre dívida total e renda anual).
+-- Permite avaliar se scores mais altos estão associados a menor nível de endividamento relativo.
+
 WITH base AS (
     SELECT
         CASE 
