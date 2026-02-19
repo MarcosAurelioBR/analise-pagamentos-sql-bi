@@ -23,7 +23,7 @@ ORDER BY volume_total_tpv DESC;
 -- Identifica os principais gargalos que impedem a aprovação das transações.
 -- O cálculo percentual ajuda a priorizar ações de melhoria na taxa de aprovação.
 SELECT 
-    transaction_status,
+    transaction_status, -- Motivo do erros
     COUNT(*) AS total_ocorrencias,
     CAST((COUNT(*) * 100.0 / SUM(COUNT(*)) OVER()) AS DECIMAL(10,2)) AS percentual_do_total
 FROM vw_fact_payments_performance
