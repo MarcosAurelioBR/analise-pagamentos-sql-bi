@@ -1,5 +1,5 @@
 /* ETAPA 1: INSIGHTS
-   OBJETIVO: Análise de Recorrência (Time-Between-Transactions).
+   OBJETIVO: Análise de Recorrência (Tempo entre transações).
    TÉCNICA: Window Functions (LAG) e CTEs.
 */
 
@@ -52,12 +52,11 @@ ORDER BY z_score DESC;
 
 
 
--- 3. ANÁLISE DE CRESCIMENTO MENSAL (MoM Growth) - Versão Final
+-- 3. ANÁLISE DE CRESCIMENTO MENSAL (MoM Growth)
 WITH MonthlyVolume AS (
     SELECT 
         YEAR(transaction_timestamp) AS trans_year,
         MONTH(transaction_timestamp) AS trans_month,
-        -- Usando DECIMAL(38,2) para evitar o erro de estouro na soma
         SUM(CAST(amount_value AS DECIMAL(38,2))) AS monthly_tpv
     FROM vw_fact_payments_performance
     WHERE transaction_status = 'Success'
@@ -68,14 +67,11 @@ SELECT
     trans_month,
     monthly_tpv,
     LAG(monthly_tpv) OVER (ORDER BY trans_year, trans_month) AS last_month_tpv,
-    
-    -- Arredondando o crescimento percentual para 2 casas
-    CAST(
+     CAST(
         (monthly_tpv - LAG(monthly_tpv) OVER (ORDER BY trans_year, trans_month)) / 
         NULLIF(LAG(monthly_tpv) OVER (ORDER BY trans_year, trans_month), 0) * 100 
     AS DECIMAL(10,2)) AS mom_growth_pct,
     
-    -- Arredondando a média móvel para 2 casas
     CAST(
         AVG(monthly_tpv) OVER (ORDER BY trans_year, trans_month ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) 
     AS DECIMAL(38,2)) AS moving_avg_3m
