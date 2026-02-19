@@ -1,7 +1,3 @@
-/* PROJETO: Análise de Ecossistema de Pagamentos
-   ETAPA 3: MODELAGEM (STAR SCHEMA)
-   OBJETIVO: Trazendo os dados dos usuários para a mesma tabela de transações (facilita o Dashboard)
-*/
 
 /* ETAPA 3: MODELAGEM (STAR SCHEMA)
    OBJETIVO: Tabela Fato unificada para alimentação do BI.
