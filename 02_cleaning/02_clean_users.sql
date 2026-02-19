@@ -13,10 +13,9 @@ WITH base AS (
     FROM payments_core.dbo.users_raw
 )
 
-SELECT *,
-    CASE 
-        WHEN yearly_income > 0 
-        THEN total_debt / yearly_income
-        ELSE 0
-    END AS debt_to_income_ratio
+SELECT 
+    *,
+    CAST(total_debt AS DECIMAL(18,4)) / 
+    NULLIF(CAST(yearly_income AS DECIMAL(18,4)), 0) 
+    AS debt_to_income_ratio
 FROM base;
