@@ -49,18 +49,27 @@ GROUP BY gender;
 -- 4. SAÚDE FINANCEIRA POR FAIXA DE SCORE
 -- Classifica os clientes por qualidade de crédito e avalia o índice de endividamento.
 -- Permite entender se o score de crédito está alinhado com o perfil de dívida dos usuários.
+WITH base AS (
+    SELECT
+        CASE 
+            WHEN credit_score < 500 THEN 'Baixo (Até 500)'
+            WHEN credit_score >= 500 AND credit_score < 700 THEN 'Médio (500-700)'
+            ELSE 'Alto (Acima 700)'
+        END AS faixa_score,
+        debt_to_income_ratio
+    FROM vw_users_cleaned
+    WHERE debt_to_income_ratio IS NOT NULL
+)
+
 SELECT 
-    CASE 
-        WHEN credit_score < 500 THEN 'Baixo (Até 500)'
-        WHEN credit_score BETWEEN 500 AND 700 THEN 'Médio (500-700)'
-        ELSE 'Alto (Acima 700)'
-    END AS faixa_score,
-    CAST(AVG(CAST(debt_to_income_ratio AS FLOAT)) AS DECIMAL(10,2)) AS indice_endividamento_medio,
+    faixa_score,
+    CAST(AVG(debt_to_income_ratio) AS DECIMAL(10,2)) AS indice_endividamento_medio,
     COUNT(*) AS total_clientes
-FROM vw_users_cleaned
-GROUP BY 
-    CASE 
-        WHEN credit_score < 500 THEN 'Baixo (Até 500)'
-        WHEN credit_score BETWEEN 500 AND 700 THEN 'Médio (500-700)'
-        ELSE 'Alto (Acima 700)'
+FROM base
+GROUP BY faixa_score
+ORDER BY 
+    CASE faixa_score
+        WHEN 'Baixo (Até 500)' THEN 1
+        WHEN 'Médio (500-700)' THEN 2
+        ELSE 3
     END;
